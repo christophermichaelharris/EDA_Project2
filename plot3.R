@@ -12,8 +12,11 @@ if(!exists("SCC")){
 PM_25_Matrix_Balt_Type <- matrix(nrow=16,ncol = 3)
 colnames(PM_25_Matrix_Balt_Type) = c("Year","Type","Emissions")
 PM_25_Matrix_Balt_Type[1:16,1] = c(rep(1999,4),rep(2002,4),rep(2005,4),rep(2008,4))  #year values
+
+#Convert to dataframe to keep year as an integer but add type as a character
 PM_25_df_Balt_Type <- data.frame(PM_25_Matrix_Balt_Type)
 
-PM_25_df_Balt_Type[1:16,2] <- c(rep(c("point", "nonpoint", "onroad", "nonroad"),each=4))
+#Adds levels 
+PM_25_df_Balt_Type[1:16,2] <- c(rep(c("point", "nonpoint", "onroad", "nonroad"),4))
   
 
