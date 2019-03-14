@@ -8,23 +8,16 @@ if(!exists("SCC")){
   SCC <- readRDS("Source Classification Code.rds")
 }
 
+#Creates matrix of relevant values
+PM_25_Matrix_Balt <- matrix(nrow=4,ncol = 2)
+colnames(PM_25_Matrix_Balt) = c("Year","Emissions")
+PM_25_Matrix_Balt[1:4,1] = c(1999,2002,2005,2008)  #year values
+PM_25_Matrix_Balt[1:4,2] <- c(sum(NEI[NEI$year == 1999 & NEI$fips == 24510,4]),sum(NEI[NEI$year == 2002 & NEI$fips == 24510,4]),sum(NEI[NEI$year == 2005  & NEI$fips == 24510,4]),sum(NEI[NEI$year == 2008 & NEI$fips == 24510,4]))
+PM_25_df_Balt <- data.frame(PM_25_Matrix_Balt)          
 
-##Creates new dataframes by subsetting by both year and zip
-BaltPM25_1999 <- subset(NEI,year==1999 & fips==24510)
-BaltPM25_2002 <- subset(NEI,year==2002 & fips==24510)
-BaltPM25_2005 <- subset(NEI,year==2005 & fips==24510)
-BaltPM25_2008 <- subset(NEI,year==2008 & fips==24510)
-
-#Sums the total emissions in each dataframe
-BaltSumPM25_1999 <- sum(BaltPM25_1999$Emissions)
-BaltSumPM25_2002 <- sum(BaltPM25_2002$Emissions)
-BaltSumPM25_2005 <- sum(BaltPM25_2005$Emissions)
-BaltSumPM25_2008 <- sum(BaltPM25_2008$Emissions)
-
-#Combines information into two vectors for ease of plotting
-Years <- c(1999,2002,2005,2008)
-Balt_PM_Observations <- c(BaltSumPM25_1999,BaltSumPM25_2002,BaltSumPM25_2005,BaltSumPM25_2008)
-
-#Plots the data and formats
-plot(Balt_PM_Observations~Years,xlab="Year",ylab="Total Emissions in Baltimore",main="PM2.5 Emissions from All Sources in Baltimore",type="o",col="red")
-text(Balt_PM_Observations~Years,labels=round(Balt_PM_Observations,digits=0),pos=3)
+with(PM_25_df_Balt,{
+  plot(PM_25_df_Balt$Year,PM_25_df_Balt$Emissions,xlab="Year",ylab="Total Emissions",main="PM2.5 Emissions from All Sources in Baltimore",type="p",col="blue",pch=19)
+  text(PM_25_df_Balt$Year,PM_25_df_Balt$Emissions,labels=round(PM_25_df_Balt$Emissions,digits=0),pos=3)
+  trend <- lm(PM_25_df_Balt$Emissions~PM_25_df_Balt$Year,data=PM_25_df_Balt)
+  abline(trend,col="red")
+})

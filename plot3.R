@@ -8,9 +8,12 @@ if(!exists("SCC")){
   SCC <- readRDS("Source Classification Code.rds")
 }
 
-##Creates new dataframes by subsetting by year and zip
-BaltPM25_1999 <- subset(NEI,year==1999 & fips==24510)
-BaltPM25_2002 <- subset(NEI,year==2002 & fips==24510)
-BaltPM25_2005 <- subset(NEI,year==2005 & fips==24510)
-BaltPM25_2008 <- subset(NEI,year==2008 & fips==24510)
+#Creates matrix of relevant values
+PM_25_Matrix_Balt_Type <- matrix(nrow=16,ncol = 3)
+colnames(PM_25_Matrix_Balt_Type) = c("Year","Type","Emissions")
+PM_25_Matrix_Balt_Type[1:16,1] = c(rep(1999,4),rep(2002,4),rep(2005,4),rep(2008,4))  #year values
+PM_25_df_Balt_Type <- data.frame(PM_25_Matrix_Balt_Type)
+
+PM_25_df_Balt_Type[1:16,2] <- c(rep(c("point", "nonpoint", "onroad", "nonroad"),each=4))
+  
 
