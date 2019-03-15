@@ -21,8 +21,9 @@ colnames(Balt_Road_Obs) = c("Year","Emissions")
 Balt_Road_Obs[1:4,1] = c(1999,2002,2005,2008)  #year values
 Balt_Road_Obs[1:4,2] <- c(sum(Road_Obs[Road_Obs$year == 1999 & Road_Obs$fips == 24510,4]),sum(Road_Obs[Road_Obs$year == 2002 & Road_Obs$fips == 24510,4]),sum(Road_Obs[Road_Obs$year == 2005  & Road_Obs$fips == 24510,4]),sum(Road_Obs[Road_Obs$year == 2008 & Road_Obs$fips == 24510,4]))
 
-dev.copy(png,file="plot5.png")
-plot5 <- qplot(Year,Emissions,data=Balt_Road_Obs) + geom_smooth(method=lm) + labs(y="Total Emissions",x="Year",title="Total Emissions from Motor Vehicle Sources in Baltimore City")
-dev.off()
+g_plot5 <- ggplot(data=Balt_Road_Obs,aes(y=Emissions,x=Year))
+plot5 <- g_plot5 + geom_col(fill="red") + scale_x_discrete(limits = c(1999,2002,2005,2008)) + geom_smooth(method="lm",se=FALSE) + labs(y="Total Emissions",x="Year",title="Total Emissions from Motor Vehicle Sources in Baltimore City")
+print(plot5)
 
-plot(plot5)
+dev.copy(png,file="plot5.png")
+dev.off()

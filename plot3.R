@@ -23,8 +23,11 @@ for(i in 1:nrow(PM25_Balt_Type)){
   PM25_Balt_Type[i,3] = sum(NEI[NEI$year == PM25_Balt_Type[i,1] & NEI$fips == 24510 & NEI$type == PM25_Balt_Type[i,2],4])
 }
 
+g_plot3 <- ggplot(data=PM25_Balt_Type,aes(y=Emissions,x=Year))
+plot3 <- g_plot3 + geom_col(fill="red") + facet_grid(.~Type) + scale_x_discrete(limits = c(1999,2002,2005,2008)) + geom_smooth(method="lm",se=FALSE) + labs(y="Total Emissions",x="Year",title="Total Emissions By Source in Baltimore")
+print(plot3)
+
 dev.copy(png,file="plot3.png")
-plot3 <- qplot(Year,Emissions,data=PM25_Balt_Type, facets = .~Type) + geom_smooth(method=lm) + labs(y="Total Emissions",x="Year",title="Total Emissions in Baltimore by Year and Type")
 dev.off()
 
-plot(plot3)
+

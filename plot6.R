@@ -25,8 +25,11 @@ Comp_Road_Obs[5:8,2] = rep("Los Angeles",4)
 Comp_Road_Obs[1:4,3] <- c(sum(Road_Obs[Road_Obs$year == 1999 & Road_Obs$fips == 24510,4]),sum(Road_Obs[Road_Obs$year == 2002 & Road_Obs$fips == 24510,4]),sum(Road_Obs[Road_Obs$year == 2005  & Road_Obs$fips == 24510,4]),sum(Road_Obs[Road_Obs$year == 2008 & Road_Obs$fips == 24510,4]))
 Comp_Road_Obs[5:8,3] <- c(sum(Road_Obs[Road_Obs$year == 1999 & Road_Obs$fips == "06037",4]),sum(Road_Obs[Road_Obs$year == 2002 & Road_Obs$fips == "06037",4]),sum(Road_Obs[Road_Obs$year == 2005  & Road_Obs$fips == "06037",4]),sum(Road_Obs[Road_Obs$year == 2008 & Road_Obs$fips == "06037",4]))
 
+g_plot6 <- ggplot(data=Comp_Road_Obs,aes(y=Emissions,x=Year))
+plot6 <- g_plot6 + geom_col(fill="red") + facet_grid(.~ City) + scale_x_discrete(limits = c(1999,2002,2005,2008)) + geom_smooth(method="lm",se=FALSE) + labs(y="Total Emissions",x="Year",title="Total Emissions from Motor Vehicle Sources")
+print(plot6)
+
 dev.copy(png,file="plot6.png")
-plot6 <- qplot(Year,Emissions,data=Comp_Road_Obs, facets = . ~ City) + geom_smooth(method=lm) + labs(y="Total Emissions",x="Year",title="Total Emissions from Motor Vehicle Sources")
 dev.off()
 
-plot(plot6)
+

@@ -25,8 +25,10 @@ PM25_Coal[1:4,1] = c(1999,2002,2005,2008)  #year values
 PM25_Coal[1:4,2] <- c(sum(Coal_Obs[Coal_Obs$year == 1999,4]),sum(Coal_Obs[Coal_Obs$year == 2002,4]),sum(Coal_Obs[Coal_Obs$year == 2005,4]),sum(Coal_Obs[Coal_Obs$year == 2008,4]))
 
 #creates plot
-dev.copy(png,file="plot4.png")
-plot4 <- qplot(Year,Emissions,data=PM25_Coal) + geom_smooth(method=lm) + labs(y="Total Emissions",x="Year",title="Total Coal Combustion-Related Emissions in the United States")
-dev.off()
 
-plot(plot4)
+g_plot4 <- ggplot(data=PM25_Coal,aes(y=Emissions,x=Year))
+plot4 <- g_plot4 + geom_col(fill="red") + scale_x_discrete(limits = c(1999,2002,2005,2008)) + geom_smooth(method="lm",se=FALSE) + labs(y="Total Emissions",x="Year",title="Total Coal Combustion-Related Emissions in the United States")
+print(plot4)
+
+dev.copy(png,file="plot4.png")
+dev.off()
